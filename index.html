@@ -425,11 +425,17 @@
     sendBtn.addEventListener("click", sendMessage);
     
     userInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
+  const isMobile = window.innerWidth <= 480; // mobile breakpoint
+
+  if (e.key === "Enter") {
+    if (!isMobile && !e.shiftKey) {
+      // Desktop: Enter sends message
+      e.preventDefault();
+      sendMessage();
+    }
+    // Mobile: Enter creates a new line naturally, do nothing
+  }
+});
 
     // Clear chat handler
     document.querySelector('.new-chat-button').addEventListener('click', () => {
