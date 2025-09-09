@@ -1,3 +1,4 @@
+const claude = new PuterAI({ model: "claude-sonnet-4" }); // or add apiKey if needed
 const chatDiv = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
