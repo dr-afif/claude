@@ -4,6 +4,8 @@ body {
   display: flex;
   justify-content: center;
   padding: 20px;
+  height: 100vh;
+  margin: 0;
 }
 
 .chat-container {
@@ -15,6 +17,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   padding: 10px;
+  height: 100%;
 }
 
 h2 {
@@ -23,13 +26,12 @@ h2 {
 }
 
 #chat {
-  flex: 1;
+  flex-grow: 1;
   padding: 10px;
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #fafafa;
-  margin-bottom: 10px;
   min-height: 300px;
 }
 
@@ -68,6 +70,7 @@ h2 {
 #inputArea {
   display: flex;
   gap: 5px;
+  margin-top: 10px;
 }
 
 #inputArea input {
