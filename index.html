@@ -389,36 +389,45 @@ body {
     }
 
     async function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
-      
-      sendBtn.disabled = true;
-      sendBtn.textContent = "...";
-      
-      const userMsg = appendMessage("user", message);
-      userInput.value = "";
-      userInput.style.height = 'auto';
+  const message = userInput.value.trim();
+  if (!message) return;
 
-      const claudeMsg = appendMessage("claude", "Claude is typing...");
+  sendBtn.disabled = true;
+  sendBtn.textContent = "...";
 
-      try {
-        const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
-        let fullResponse = "";
-        
-        for await (const part of response) {
-          if (part?.text) {
-            fullResponse = part.text;
-            claudeMsg.messageText.textContent = fullResponse;
-            chatDiv.scrollTop = chatDiv.scrollHeight;
-          }
-        }
-      } catch (err) {
-        claudeMsg.messageText.textContent = "Error: " + err.message;
-      } finally {
-        sendBtn.disabled = false;
-        sendBtn.textContent = "Send";
+  // Append user message
+  const userMsg = appendMessage("user", message);
+  userInput.value = "";
+  userInput.style.height = 'auto';
+
+  // Append Claude placeholder message
+  const claudeMsg = appendMessage("claude", "Claude is typing...");
+
+  try {
+    // Stream response from Claude
+    const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
+    let fullResponse = "";
+
+    // Use a <pre> element to preserve formatting
+    const pre = document.createElement("pre");
+    pre.style.whiteSpace = "pre-wrap";
+    claudeMsg.div.replaceChild(pre, claudeMsg.messageText);
+    
+    for await (const part of response) {
+      if (part?.text) {
+        fullResponse += part.text;          // Append streamed chunk
+        pre.textContent = fullResponse;     // Update display
+        chatDiv.scrollTop = chatDiv.scrollHeight;
       }
     }
+
+  } catch (err) {
+    claudeMsg.messageText.textContent = "Error: " + err.message;
+  } finally {
+    sendBtn.disabled = false;
+    sendBtn.textContent = "Send";
+  }
+}
 
     // Send message handlers
     sendBtn.addEventListener("click", sendMessage);
