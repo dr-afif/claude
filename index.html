@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -12,305 +11,301 @@
       box-sizing: border-box;
     }
 
-```
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: #1a1a1a;
-  color: #ffffff;
-  height: 100vh;
-  height: 100dvh; /* Use dynamic viewport height for mobile */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #1a1a1a;
+      color: #ffffff;
+      height: 100vh;
+      height: 100dvh; /* Use dynamic viewport height for mobile */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-/* Status Bar */
-.status-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 20px;
-  background: #1a1a1a;
-  font-size: 17px;
-  font-weight: 600;
-  height: 44px;
-}
+    /* Status Bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 20px;
+      background: #1a1a1a;
+      font-size: 17px;
+      font-weight: 600;
+      height: 44px;
+      flex-shrink: 0;
+    }
 
-.status-left {
-  color: #ffffff;
-}
+    .status-left {
+      color: #ffffff;
+    }
 
-.status-right {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 17px;
-}
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 17px;
+    }
 
-.battery {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
+    .battery {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
 
-/* Header */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: #1a1a1a;
-  border-bottom: 1px solid #2a2a2a;
-}
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+      flex-shrink: 0;
+    }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-.menu-button {
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 5px;
-}
+    .menu-button {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 5px;
+    }
 
-.model-selector {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 17px;
-  color: #ffffff;
-  cursor: pointer;
-}
+    .model-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 17px;
+      color: #ffffff;
+      cursor: pointer;
+    }
 
-.model-name {
-  font-weight: 500;
-}
+    .model-name {
+      font-weight: 500;
+    }
 
-.model-version {
-  color: #999999;
-}
+    .model-version {
+      color: #999999;
+    }
 
-.dropdown-arrow {
-  font-size: 14px;
-  color: #999999;
-}
+    .dropdown-arrow {
+      font-size: 14px;
+      color: #999999;
+    }
 
-.new-chat-button {
-  background: #ff6b4a;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: 300;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+    .new-chat-button {
+      background: #ff6b4a;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 300;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
 
-.new-chat-button:hover {
-  background: #ff5a39;
-}
+    .new-chat-button:hover {
+      background: #ff5a39;
+    }
 
-/* Chat Area */
-.chat-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+    /* Chat Area */
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
 
-#chat {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0; /* Important for proper flex behavior */
-}
+    #chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0; /* Important for proper flex behavior */
+    }
 
-.message {
-  max-width: 85%;
-  padding: 12px 16px;
-  border-radius: 20px;
-  font-size: 16px;
-  line-height: 1.5;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-  position: relative;
-  margin-bottom: 8px;
-}
+    .message {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      position: relative;
+      margin-bottom: 8px;
+    }
 
-.user {
-  background: #2a2a2a;
-  color: #ffffff;
-  align-self: flex-end;
-  border-bottom-right-radius: 6px;
-  margin-left: auto;
-}
+    .user {
+      background: #2a2a2a;
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 6px;
+      margin-left: auto;
+    }
 
-.claude {
-  background: #2a2a2a;
-  color: #ffffff;
-  align-self: flex-start;
-  border-bottom-left-radius: 6px;
-  margin-right: auto;
-}
+    .claude {
+      background: #2a2a2a;
+      color: #ffffff;
+      align-self: flex-start;
+      border-bottom-left-radius: 6px;
+      margin-right: auto;
+    }
 
-.timestamp {
-  display: block;
-  font-size: 12px;
-  color: #999999;
-  margin-top: 4px;
-  opacity: 0.7;
-}
+    .timestamp {
+      display: block;
+      font-size: 12px;
+      color: #999999;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
 
-/* Footer */
-.footer {
-  background: #1a1a1a;
-  padding: 12px 20px 8px;
-  border-top: 1px solid #2a2a2a;
-}
+    /* Footer */
+    .footer {
+      background: #1a1a1a;
+      padding: 12px 20px 8px;
+      border-top: 1px solid #2a2a2a;
+      flex-shrink: 0;
+    }
 
-.footer-disclaimer {
-  text-align: center;
-  font-size: 13px;
-  color: #999999;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
+    .footer-disclaimer {
+      text-align: center;
+      font-size: 13px;
+      color: #999999;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-.claude-icon {
-  width: 16px;
-  height: 16px;
-  background: #ff6b4a;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: bold;
-}
+    .claude-icon {
+      width: 16px;
+      height: 16px;
+      background: #ff6b4a;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: bold;
+    }
 
-/* Input Area */
-.input-container {
-  background: #2a2a2a;
-  border-radius: 25px;
-  padding: 8px 8px 8px 20px;
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  margin-bottom: 8px;
-}
+    /* Input Area */
+    .input-container {
+      background: #2a2a2a;
+      border-radius: 25px;
+      padding: 8px 8px 8px 20px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
 
-#userInput {
-  flex: 1;
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
-  font-family: inherit;
-  resize: none;
-  outline: none;
-  min-height: 24px;
-  max-height: 120px;
-  padding: 8px 0;
-  line-height: 1.4;
-}
+    #userInput {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 16px;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      min-height: 24px;
+      max-height: 120px;
+      padding: 8px 0;
+      line-height: 1.4;
+    }
 
-#userInput::placeholder {
-  color: #999999;
-}
+    #userInput::placeholder {
+      color: #999999;
+    }
 
-.send-button {
-  background: #007AFF;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 10px 16px;
-  border-radius: 20px;
-  transition: background-color 0.2s;
-  min-width: 60px;
-}
+    .send-button {
+      background: #007AFF;
+      border: none;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 10px 16px;
+      border-radius: 20px;
+      transition: background-color 0.2s;
+      min-width: 60px;
+    }
 
-.send-button:hover {
-  background: #0056b3;
-}
+    .send-button:hover {
+      background: #0056b3;
+    }
 
-.send-button:disabled {
-  background: #444444;
-  cursor: not-allowed;
-}
+    .send-button:disabled {
+      background: #444444;
+      cursor: not-allowed;
+    }
 
-/* Home Indicator */
-.home-indicator {
-  width: 134px;
-  height: 5px;
-  background: #ffffff;
-  border-radius: 3px;
-  margin: 8px auto;
-  opacity: 0.3;
-}
+    /* Home Indicator */
+    .home-indicator {
+      width: 134px;
+      height: 5px;
+      background: #ffffff;
+      border-radius: 3px;
+      margin: 8px auto;
+      opacity: 0.3;
+    }
 
-/* Scrollbar Styling */
-#chat::-webkit-scrollbar {
-  width: 3px;
-}
+    /* Scrollbar Styling */
+    #chat::-webkit-scrollbar {
+      width: 3px;
+    }
 
-#chat::-webkit-scrollbar-track {
-  background: transparent;
-}
+    #chat::-webkit-scrollbar-track {
+      background: transparent;
+    }
 
-#chat::-webkit-scrollbar-thumb {
-  background: #444444;
-  border-radius: 2px;
-}
+    #chat::-webkit-scrollbar-thumb {
+      background: #444444;
+      border-radius: 2px;
+    }
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .header {
-    padding: 8px 16px;
-  }
-  
-  #chat {
-    padding: 16px;
-  }
-  
-  .footer {
-    padding: 8px 16px;
-  }
-  
-  .message {
-    max-width: 90%;
-    font-size: 15px;
-  }
-}
-```
-
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .header {
+        padding: 8px 16px;
+      }
+      
+      #chat {
+        padding: 16px;
+      }
+      
+      .footer {
+        padding: 8px 16px;
+      }
+      
+      .message {
+        max-width: 90%;
+        font-size: 15px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <!-- Status Bar -->
-
 <div class="status-bar">
   <div class="status-left">6:33</div>
   <div class="status-right">
@@ -321,7 +316,6 @@ body {
 </div>
 
 <!-- Header -->
-
 <div class="header">
   <div class="header-left">
     <button class="menu-button">☰</button>
@@ -335,13 +329,11 @@ body {
 </div>
 
 <!-- Chat Container -->
-
 <div class="chat-container">
   <div id="chat"></div>
 </div>
 
 <!-- Footer -->
-
 <div class="footer">
   <div class="footer-disclaimer">
     <div class="claude-icon">C</div>
@@ -389,45 +381,45 @@ body {
     }
 
     async function sendMessage() {
-  const message = userInput.value.trim();
-  if (!message) return;
+      const message = userInput.value.trim();
+      if (!message) return;
 
-  sendBtn.disabled = true;
-  sendBtn.textContent = "...";
+      sendBtn.disabled = true;
+      sendBtn.textContent = "...";
 
-  // Append user message
-  const userMsg = appendMessage("user", message);
-  userInput.value = "";
-  userInput.style.height = 'auto';
+      // Append user message
+      const userMsg = appendMessage("user", message);
+      userInput.value = "";
+      userInput.style.height = 'auto';
 
-  // Append Claude placeholder message
-  const claudeMsg = appendMessage("claude", "Claude is typing...");
+      // Append Claude placeholder message
+      const claudeMsg = appendMessage("claude", "Claude is typing...");
 
-  try {
-    // Stream response from Claude
-    const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
-    let fullResponse = "";
+      try {
+        // Stream response from Claude
+        const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
+        let fullResponse = "";
 
-    // Use a <pre> element to preserve formatting
-    const pre = document.createElement("pre");
-    pre.style.whiteSpace = "pre-wrap";
-    claudeMsg.div.replaceChild(pre, claudeMsg.messageText);
-    
-    for await (const part of response) {
-      if (part?.text) {
-        fullResponse += part.text;          // Append streamed chunk
-        pre.textContent = fullResponse;     // Update display
-        chatDiv.scrollTop = chatDiv.scrollHeight;
+        // Use a <pre> element to preserve formatting
+        const pre = document.createElement("pre");
+        pre.style.whiteSpace = "pre-wrap";
+        claudeMsg.div.replaceChild(pre, claudeMsg.messageText);
+        
+        for await (const part of response) {
+          if (part?.text) {
+            fullResponse += part.text;          // Append streamed chunk
+            pre.textContent = fullResponse;     // Update display
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+          }
+        }
+
+      } catch (err) {
+        claudeMsg.messageText.textContent = "Error: " + err.message;
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send";
       }
     }
-
-  } catch (err) {
-    claudeMsg.messageText.textContent = "Error: " + err.message;
-  } finally {
-    sendBtn.disabled = false;
-    sendBtn.textContent = "Send";
-  }
-}
 
     // Send message handlers
     sendBtn.addEventListener("click", sendMessage);
