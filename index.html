@@ -18,9 +18,14 @@ body {
   background: #1a1a1a;
   color: #ffffff;
   height: 100vh;
+  height: 100dvh; /* Use dynamic viewport height for mobile */
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 /* Status Bar */
@@ -133,7 +138,7 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  min-height: 0; /* Important for proper flex behavior */
 }
 
 .message {
@@ -141,9 +146,11 @@ body {
   padding: 12px 16px;
   border-radius: 20px;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.5;
   word-wrap: break-word;
+  white-space: pre-wrap;
   position: relative;
+  margin-bottom: 8px;
 }
 
 .user {
@@ -231,35 +238,26 @@ body {
   color: #999999;
 }
 
-.input-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.action-button {
-  background: none;
+.send-button {
+  background: #007AFF;
   border: none;
-  color: #999999;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.action-button:hover {
-  background: #3a3a3a;
-}
-
-.voice-button {
-  background: #3a3a3a;
   color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+  min-width: 60px;
+}
+
+.send-button:hover {
+  background: #0056b3;
+}
+
+.send-button:disabled {
+  background: #444444;
+  cursor: not-allowed;
 }
 
 /* Home Indicator */
@@ -352,12 +350,7 @@ body {
 
   <div class="input-container">
     <textarea id="userInput" placeholder="Reply to Claude" rows="1"></textarea>
-    <div class="input-actions">
-      <button class="action-button">+</button>
-      <button class="action-button">≡</button>
-      <button class="action-button">🎤</button>
-      <button class="action-button voice-button">🎵</button>
-    </div>
+    <button id="sendBtn" class="send-button">Send</button>
   </div>
 
   <div class="home-indicator"></div>
@@ -369,7 +362,7 @@ body {
   window.onload = function() {
     const chatDiv = document.getElementById("chat");
     const userInput = document.getElementById("userInput");
-    const inputContainer = document.querySelector(".input-container");
+    const sendBtn = document.getElementById("sendBtn");
 
     // Auto-resize textarea
     userInput.addEventListener('input', function() {
@@ -381,7 +374,7 @@ body {
       const div = document.createElement("div");
       div.className = `message ${sender}`;
       
-      const messageText = document.createElement("span");
+      const messageText = document.createElement("div");
       messageText.textContent = text;
       
       const timestamp = document.createElement("span");
@@ -392,18 +385,21 @@ body {
       div.appendChild(timestamp);
       chatDiv.appendChild(div);
       chatDiv.scrollTop = chatDiv.scrollHeight;
-      return div;
+      return { div, messageText };
     }
 
     async function sendMessage() {
       const message = userInput.value.trim();
       if (!message) return;
       
-      appendMessage("user", message);
+      sendBtn.disabled = true;
+      sendBtn.textContent = "...";
+      
+      const userMsg = appendMessage("user", message);
       userInput.value = "";
       userInput.style.height = 'auto';
 
-      const claudeDiv = appendMessage("claude", "Claude is typing...");
+      const claudeMsg = appendMessage("claude", "Claude is typing...");
 
       try {
         const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
@@ -412,16 +408,21 @@ body {
         for await (const part of response) {
           if (part?.text) {
             fullResponse = part.text;
-            claudeDiv.firstChild.textContent = fullResponse;
+            claudeMsg.messageText.textContent = fullResponse;
             chatDiv.scrollTop = chatDiv.scrollHeight;
           }
         }
       } catch (err) {
-        claudeDiv.firstChild.textContent = "Error: " + err.message;
+        claudeMsg.messageText.textContent = "Error: " + err.message;
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send";
       }
     }
 
-    // Send message on Enter (but allow Shift+Enter for new lines)
+    // Send message handlers
+    sendBtn.addEventListener("click", sendMessage);
+    
     userInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -429,18 +430,10 @@ body {
       }
     });
 
-    // Add click handlers for buttons
+    // Clear chat handler
     document.querySelector('.new-chat-button').addEventListener('click', () => {
       chatDiv.innerHTML = '';
     });
-
-    // Add some example messages to show the interface
-    setTimeout(() => {
-      appendMessage("user", "i want the design to be the same as this mobile claude ai chat app interface");
-      setTimeout(() => {
-        appendMessage("claude", "Perfect! I can see the mobile Claude AI chat interface you want to recreate. I'll transform your HTML file to match this sleek dark theme design with the proper mobile layout, styling, and components.");
-      }, 500);
-    }, 100);
   }   
 </script>
 
