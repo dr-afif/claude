@@ -32,7 +32,8 @@
 </div>
 
 <script src="https://js.puter.com/v2/"></script>
-<script>
+<script defer>
+  window.onload = function() {
   const chatDiv = document.getElementById("chat");
   const userInput = document.getElementById("userInput");
   const sendBtn = document.getElementById("sendBtn");
@@ -73,6 +74,7 @@
   userInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
+ }   
 </script>
 
 </body>
