@@ -1,85 +1,447 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Claude AI Chat</title>
   <style>
-    /* Basic styling for chat interface */
-    body { font-family: Arial, sans-serif; display: flex; justify-content: center; padding: 20px; height: 100vh; margin: 0; background: #f4f4f9; }
-    .chat-container { width: 100%; max-width: 600px; display: flex; flex-direction: column; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 10px; }
-    h2 { text-align: center; margin-bottom: 10px; }
-    #chat { flex-grow: 1; padding: 10px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; min-height: 300px; }
-    .message { display: inline-block; padding: 8px 12px; margin: 5px 0; border-radius: 20px; max-width: 80%; word-wrap: break-word; position: relative; }
-    .user { background: #007bff; color: white; align-self: flex-end; border-bottom-right-radius: 0; }
-    .claude { background: #e5e5ea; color: black; align-self: flex-start; border-bottom-left-radius: 0; }
-    .timestamp { display: block; font-size: 10px; color: #666; margin-top: 2px; text-align: right; }
-    #inputArea { display: flex; gap: 5px; margin-top: 10px; }
-    #inputArea input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; }
-    #inputArea button { padding: 10px 15px; border: none; border-radius: 20px; background: #007bff; color: white; cursor: pointer; transition: background 0.2s; }
-    #inputArea button:hover { background: #0056b3; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+```
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #1a1a1a;
+  color: #ffffff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background: #1a1a1a;
+  font-size: 17px;
+  font-weight: 600;
+  height: 44px;
+}
+
+.status-left {
+  color: #ffffff;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 17px;
+}
+
+.battery {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.model-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.model-name {
+  font-weight: 500;
+}
+
+.model-version {
+  color: #999999;
+}
+
+.dropdown-arrow {
+  font-size: 14px;
+  color: #999999;
+}
+
+.new-chat-button {
+  background: #ff6b4a;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.new-chat-button:hover {
+  background: #ff5a39;
+}
+
+/* Chat Area */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#chat {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 20px;
+  font-size: 16px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  position: relative;
+}
+
+.user {
+  background: #2a2a2a;
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  margin-left: auto;
+}
+
+.claude {
+  background: #2a2a2a;
+  color: #ffffff;
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  margin-right: auto;
+}
+
+.timestamp {
+  display: block;
+  font-size: 12px;
+  color: #999999;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+/* Footer */
+.footer {
+  background: #1a1a1a;
+  padding: 12px 20px 8px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.footer-disclaimer {
+  text-align: center;
+  font-size: 13px;
+  color: #999999;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.claude-icon {
+  width: 16px;
+  height: 16px;
+  background: #ff6b4a;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Input Area */
+.input-container {
+  background: #2a2a2a;
+  border-radius: 25px;
+  padding: 8px 8px 8px 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+#userInput {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  min-height: 24px;
+  max-height: 120px;
+  padding: 8px 0;
+  line-height: 1.4;
+}
+
+#userInput::placeholder {
+  color: #999999;
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  color: #999999;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-button:hover {
+  background: #3a3a3a;
+}
+
+.voice-button {
+  background: #3a3a3a;
+  color: #ffffff;
+}
+
+/* Home Indicator */
+.home-indicator {
+  width: 134px;
+  height: 5px;
+  background: #ffffff;
+  border-radius: 3px;
+  margin: 8px auto;
+  opacity: 0.3;
+}
+
+/* Scrollbar Styling */
+#chat::-webkit-scrollbar {
+  width: 3px;
+}
+
+#chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#chat::-webkit-scrollbar-thumb {
+  background: #444444;
+  border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .header {
+    padding: 8px 16px;
+  }
+  
+  #chat {
+    padding: 16px;
+  }
+  
+  .footer {
+    padding: 8px 16px;
+  }
+  
+  .message {
+    max-width: 90%;
+    font-size: 15px;
+  }
+}
+```
+
   </style>
 </head>
 <body>
 
-<div class="chat-container">
-  <h2>Claude AI Chat</h2>
-  <div id="chat"></div>
-  <div id="inputArea">
-    <input type="text" id="userInput" placeholder="Type your message..." />
-    <button id="sendBtn">Send</button>
+<!-- Status Bar -->
+
+<div class="status-bar">
+  <div class="status-left">6:33</div>
+  <div class="status-right">
+    <span>📶</span>
+    <span>📶</span>
+    <span class="battery">76 🔋</span>
   </div>
 </div>
 
+<!-- Header -->
+
+<div class="header">
+  <div class="header-left">
+    <button class="menu-button">☰</button>
+    <div class="model-selector">
+      <span class="model-name">Claude</span>
+      <span class="model-version">Sonnet 4</span>
+      <span class="dropdown-arrow">⌄</span>
+    </div>
+  </div>
+  <button class="new-chat-button">+</button>
+</div>
+
+<!-- Chat Container -->
+
+<div class="chat-container">
+  <div id="chat"></div>
+</div>
+
+<!-- Footer -->
+
+<div class="footer">
+  <div class="footer-disclaimer">
+    <div class="claude-icon">C</div>
+    <span>Claude can make mistakes. Please double check responses.</span>
+  </div>
+
+  <div class="input-container">
+    <textarea id="userInput" placeholder="Reply to Claude" rows="1"></textarea>
+    <div class="input-actions">
+      <button class="action-button">+</button>
+      <button class="action-button">≡</button>
+      <button class="action-button">🎤</button>
+      <button class="action-button voice-button">🎵</button>
+    </div>
+  </div>
+
+  <div class="home-indicator"></div>
+</div>
+
 <script src="https://js.puter.com/v2/"></script>
+
 <script defer>
   window.onload = function() {
-  const chatDiv = document.getElementById("chat");
-  const userInput = document.getElementById("userInput");
-  const sendBtn = document.getElementById("sendBtn");
+    const chatDiv = document.getElementById("chat");
+    const userInput = document.getElementById("userInput");
+    const inputContainer = document.querySelector(".input-container");
 
-  function appendMessage(sender, text) {
-  const div = document.createElement("div");
-  div.className = `message ${sender}`;
-  
-  const messageText = document.createElement("span");
-  messageText.textContent = text;
-  
-  const timestamp = document.createElement("span");
-  timestamp.className = "timestamp";
-  timestamp.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-  
-  div.appendChild(messageText);
-  div.appendChild(timestamp);
-  chatDiv.appendChild(div);
-  chatDiv.scrollTop = chatDiv.scrollHeight;
-  return div;
-}
+    // Auto-resize textarea
+    userInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
 
-  async function sendMessage() {
-    const message = userInput.value.trim();
-    if (!message) return;
-    appendMessage("user", message);
-    userInput.value = "";
-
-    const claudeDiv = appendMessage("claude", "Claude is typing...");
-
-    try {
-      const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
-      for await (const part of response) {
-        claudeDiv.textContent = part?.text || '';
-        chatDiv.scrollTop = chatDiv.scrollHeight;
-      }
-    } catch (err) {
-      claudeDiv.textContent = "Error: " + err.message;
+    function appendMessage(sender, text) {
+      const div = document.createElement("div");
+      div.className = `message ${sender}`;
+      
+      const messageText = document.createElement("span");
+      messageText.textContent = text;
+      
+      const timestamp = document.createElement("span");
+      timestamp.className = "timestamp";
+      timestamp.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      
+      div.appendChild(messageText);
+      div.appendChild(timestamp);
+      chatDiv.appendChild(div);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+      return div;
     }
-  }
 
-  sendBtn.addEventListener("click", sendMessage);
-  userInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
- }   
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      
+      appendMessage("user", message);
+      userInput.value = "";
+      userInput.style.height = 'auto';
+
+      const claudeDiv = appendMessage("claude", "Claude is typing...");
+
+      try {
+        const response = await puter.ai.chat(message, { model: 'claude-sonnet-4', stream: true });
+        let fullResponse = "";
+        
+        for await (const part of response) {
+          if (part?.text) {
+            fullResponse = part.text;
+            claudeDiv.firstChild.textContent = fullResponse;
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+          }
+        }
+      } catch (err) {
+        claudeDiv.firstChild.textContent = "Error: " + err.message;
+      }
+    }
+
+    // Send message on Enter (but allow Shift+Enter for new lines)
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Add click handlers for buttons
+    document.querySelector('.new-chat-button').addEventListener('click', () => {
+      chatDiv.innerHTML = '';
+    });
+
+    // Add some example messages to show the interface
+    setTimeout(() => {
+      appendMessage("user", "i want the design to be the same as this mobile claude ai chat app interface");
+      setTimeout(() => {
+        appendMessage("claude", "Perfect! I can see the mobile Claude AI chat interface you want to recreate. I'll transform your HTML file to match this sleek dark theme design with the proper mobile layout, styling, and components.");
+      }, 500);
+    }, 100);
+  }   
 </script>
 
 </body>
