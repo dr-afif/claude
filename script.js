@@ -1,4 +1,4 @@
-const claude = new PuterAI({ model: "claude" }); // or add apiKey if needed
+const claude = new PuterAI({ model: "claude-sonnet-4" }); // or add apiKey if needed
 const chatDiv = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
 
